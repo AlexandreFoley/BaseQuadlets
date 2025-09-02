@@ -1,0 +1,28 @@
+[Unit]
+Description=Authelia Container
+Documentation=https://www.authelia.com/integration/
+# Requires=lldap.service
+
+[Service]
+Restart=on-failure
+
+[Container]
+AutoUpdate=registry
+ContainerName=authelia
+Image=ghcr.io/authelia/authelia:master
+
+
+# Share network with lldap 
+Network=lldap-frontend.network
+PublishPort=127.0.0.1:9091:9091
+
+
+# environment variables
+Environment=PUID=1000
+Environment=PGID=1000
+
+
+Volume=authelia.volume:/config:Z
+
+[Install]
+WantedBy=multi-user.target default.target
